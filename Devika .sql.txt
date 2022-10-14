@@ -1,0 +1,124 @@
+CREATE DATABASE SQL;
+USE SQL;
+CREATE TABLE Customer
+(CustomerId int primary key,
+FirstName nvarchar(40) Not Null,
+LastName nvarchar(40),
+City nvarchar(40),
+Country nvarchar(40),
+Phone nvarchar(20),
+FaxNumber nvarchar(20),
+NumberOfOrders nvarchar(20));
+select * from Customer;
+Create index Name on Customer(FirstName,LastName);
+Insert into Customer values('10000','john','smith','melbourne','germany','865676986','76567457','5');
+Insert into Customer values('10008','dave','franklin','geelong','russia','676465498','34254655','7');
+Insert into Customer values('10003','johns','febby','narasapur','india','754342548','56544343','9');
+Insert into Customer values('10004','mary','smith','geelong','honkong','656535438','23236348','5');
+Select * from Customer;
+Create table Orders 
+(OrdersId int primary key,
+OrdersDate datetime,
+OrdersNumber nvarchar(10),
+CustomerId int,
+CONSTRAINT FK_CustomerCheck FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId),
+TotalAmount decimal(12,2));
+Create index CustomerId on Orders(CustomerId);
+Create index OrdersDate on Orders(OrdersDate);
+Insert into Orders values ('3','3/10/2022','004','10004','565.00');
+Insert into Orders values ('4','4/10/2022','002','10003','109.12');
+Insert into Orders values ('1','1/10/2022','001','10000','250.85');
+Insert into Orders values ('2','2/10/2022','003','10008','124.89');
+create table SupplierDetails(
+SuppliedId int,
+SuppliedBy nvarchar(50) primary key,
+ShipName nvarchar(50),
+SupplierName nvarchar(50),
+ShippingCompanyName nvarchar(50),
+Shipped Bit,ShippingDate datetime
+);
+Insert INTO SupplierDetails  values('123','Exotic solutions','kiya','saraf','devika','0','4/10/22');
+Insert INTO SupplierDetails values('321',' Prithi solution','Moh','prabhu','dasari','1','6/10/22');
+Insert INTO SupplierDetails values('456','lacome d abondance ','kiya','rohit','devika','1','8/10/22');
+Insert INTO SupplierDetails values('654','bunny solutions ','moh','rohi','devika','1','10/10/22');
+select * from SupplierDetails;
+Create table Product(
+ProductId int primary key ,
+ProductName nvarchar(50),
+UnitPrice decimal(12,2),
+Package nvarchar(30),
+IsDiscontinued bit,
+Category nvarchar(20),
+SuppliedBy nvarchar(50) CONSTRAINT FK_SuppliedBy FOREIGN KEY (SuppliedBy) REFERENCES SupplierDetails(SuppliedBy);
+CREATE INDEX ProductName on Product(ProductName);
+Insert into Product Values ('001','soap','30','done','0','grocery','23','Exotic solutions');
+Insert into Product Values ('002','blender','300','done','0','kitchen','23','bunny solutions');
+Insert into Product Values ('003','fish','100','done','1','seafood','26','bunny solution');
+Insert into Product Values ('004','clothes','3000','done','0','fashion','47','lacome d abondance');
+select * from Product;
+Create table OrdersItem 
+(OrdersItemId int primary key,
+OrdersId int CONSTRAINT FK_OrdersCheck FOREIGN KEY (OrdersId) REFERENCES Orders(OrdersId),
+ProductId int  CONSTRAINT FK_ProductCheck FOREIGN KEY (ProductId) REFERENCES Product(ProductId),
+UnitPrice decimal(12,2),Quantity int);
+select * from OrdersItem;
+create index OrdersId on OrdersItem (OrdersId);
+create index ProductId on OrdersItem (ProductId);
+insert into OrdersItem values ('789','3','3','100.0','25');
+insert into OrdersItem values ('564','2','4','3000.0','30');
+insert into OrdersItem values ('334','4','1','30.0','40');
+insert into OrdersItem values ('143','1','2','300.0','50');
+select * from OrdersItem;
+Create table Employe (
+EmployeName nvarchar(50),
+EmployeId int primary key,
+ManagerName nvarchar(50),
+Department nvarchar(50),
+Rating int,
+JoiningDate datetime);
+insert into Employe values('naveen','101','vishal','sales','3','11/04/2017');
+insert into Employe values('arun','103','kruthi','support','4','12/03/2019');
+insert into Employe values('rohit','104','kruthi','report','5','6/11/2020');
+Insert into Employe Values('sarah','105','dasari','testing','5','6/11/2019');
+select * from Employe;
+CREATION DATATABLES DONE NOW RETREIVEING
+ASSIGNMENT1
+select * from Customer;
+select * from Customer where Country LIKE 'A%' or Country LIKE 'I%' ;
+SELECT * from Customer where FirstName LIKE '__I%';
+ASSIGNMENT2
+select * from Customer where Country='Germany';
+select FirstName +''+LastName as Name from Customer;
+select * from Customer ORDER BY FaxNumber;select * from Customer Where FaxNumber is Not null;
+select * from Customer Where FirstName  like '_u%' ; 
+select * from OrdersItem where UnitPrice >10 and UnitPrice <20;
+select * from SupplierDetails order by ShippingDate;
+select ShipName,SuppliedBy from SupplierDetails where ShipName='kiya' and ShippingDate between '03/10/2022' and  '10/10/2022';
+select * from Product where SuppliedBy='Exotic solutions';
+select AVG(Quantity) from OrdersItem;
+select ShippingCompanyName,ShipName from SupplierDetails;
+select EmployeName, ManagerName from Employe;
+select ProductId,Category from Product;
+
+select * from Customer where phone=030-0074321;
+select * from Product where Category='seafood';
+select * from Customer where country !='london';
+select * from Product where ProductName='chai';
+select EmployeName,Department,Rating from Employe;
+
+select * from Employe order by JoiningDate;
+select ProductName,UnitPrice FROM Product order by Unitprice desc ;
+select * from Product where IsDiscontinued='0';
+select * from Product	where UnitPrice<50;
+select Category, SuppliedBy from Product;
+select MAX(NumberOfOrders) from Customer
+GROUP BY CustomerId
+ORDER BY MAX(NumberOfOrders)DESC     4th9th
+Select * from Customer Where NumberOfOrders='9';
+select SUBSTRING(SupplierName,1,1), SUBSTRING(ShippingCompanyName,1,1) FROM SupplierDetails; 4th8th
+select SUBSTRING(ShippingCompanyName,1,5) from SupplierDetails;
+select * from Product where SuppliedBy='Exotic Liquids' AND UnitPrice>50
+
+
+
+
